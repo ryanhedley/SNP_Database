@@ -1,4 +1,3 @@
-venv
 input_data
 module
 Obsolete
@@ -10,3 +9,4 @@ sqlite.log
 __pycache__
 GTC_to_SQLite_creators.py
 GTC_to_SQLite_queries.py
+venv
