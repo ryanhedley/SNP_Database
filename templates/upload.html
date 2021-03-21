@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+
+
+    <p><a href="/bpm_upload"><button class="btn btn-primary">Select BPM File</button></a></p>
+    <p><a href="/gtc_upload"><button class="btn btn-primary">Select GTC Files</button></a></p>
+
+    {% if manifest_file %}
+    <p>{{ manifest_file }}</p>
+    {% endif %}
+
+    {% if gtc_files %}
+        {% for gtc_file in gtc_files %}
+            <p>{{gtc_file}}</p>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}

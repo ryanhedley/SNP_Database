@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+
+
+    <div class="container">
+        <h2>Test Table</h2>
+        <p></p>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>GTC file</th>
+                    <th>SNP</th>
+                    <th>Genotype</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in test %}
+                <tr>
+                    <td>{{result[0]}}</td>
+                    <td>{{result[1]}}</td>
+                    <td>{{result[2]}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    {% if manifest_file %}
+        <p>{{ manifest_file }}</p>
+    {% endif %}
+
+    {% if gtc_files %}
+        {% for gtc_file in gtc_files %}
+            <p>{{gtc_file}}</p>
+        {% endfor %}
+    {% endif %}
+
+    {% if count > 0 %}
+        <p>Entries in manifest: {{count}}</p>
+    {% endif %}
+
+{% endblock %}
