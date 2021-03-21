@@ -5,3 +5,8 @@ Obsolete
 snpdata.db
 snpdata2.db
 sqlite.log
+.vscode
+.pytest_cache
+__pycache__
+GTC_to_SQLite_creators.py
+GTC_to_SQLite_queries.py
