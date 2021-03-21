@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <h2>Search all entries by SNP name</h2>
+    <p></p>
+
+    <form action="/results" method="post">
+        <div class="form-group">
+          <label for="snp_name">Enter SNP Name (e.g. rs1800562)</label>
+          <input type="text" class="form-control" name="snp_name" id="snp_name" placeholder="Enter SNP">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    {% if results %}
+
+        <div class="container">
+            <h2>Results Table</h2>
+            <p></p>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>GTC file</th>
+                        <th>SNP</th>
+                        <th>Genotype</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                    <tr>
+                        <td>{{result[0]}}</td>
+                        <td>{{result[1]}}</td>
+                        <td>{{result[2]}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    {% else %}
+
+        <div class="container">
+            <h2>No Search Results!</h2>
+        </div>
+
+    {% endif %}
+
+{% endblock %}

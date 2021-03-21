@@ -161,19 +161,22 @@ def get_gtc_base_calls(gtc_file):
         logging.error(f"Unable to get base_calls from '{gtc_file}'")
 
 
-def test(db_name):
+def search_snp(db_name, snp_names):
 
     with Database(name=db_name) as db:
 
 
         columns = "patient_name, manifest_name, base, genotype"
         table = "genotypes"
-        manifest_names = "'rs1799945','rs1800562'"
+        # manifest_names = "'rs1799945','rs1800562'"
         # manifest_names = "'rs1800562'"
         
-        test = db.read_query(f"SELECT {columns} FROM {table} WHERE manifest_name IN ({manifest_names});")
+        # print("Manifest names:", snp_names)
+        
+        test = db.read_query(f"SELECT {columns} FROM {table} WHERE manifest_name IN ({snp_names});")
 
         return test
+
 
 def count(db_name):
 

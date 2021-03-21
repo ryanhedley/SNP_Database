@@ -23,18 +23,32 @@ def home():
 def upload():
     return render_template("upload.html")
 
-@app.route("/test")
+
+@app.route("/search")
 def manifest():
+    return render_template("search.html")
 
-    test = queries.test(db_name)
 
-    return render_template("test.html", test=test)
+@app.route("/results", methods=["GET", "POST"])
+def results():
+
+    if request.method == "POST":
+        snp_names = request.form.get("snp_name")
+        snp_names = f"'{snp_names}'"
+    else:
+        snp_names = ""
+
+    results = queries.search_snp(db_name, snp_names)
+
+    return render_template("results.html", results=results)
+
 
 @app.route("/bpm_upload")
 def bpm_upload():
 
     queries.add_manifest(db_name)
     return redirect(url_for('upload'))
+    
 
 @app.route("/gtc_upload")
 def gtc_upload():
@@ -42,18 +56,5 @@ def gtc_upload():
     queries.add_multi_gtc_files(db_name)
     return redirect(url_for('upload'))
 
-
-
-
-# @app.route('/', methods=['POST'])
-# def upload_file():
-#     gtc_files = request.files.getlist('gtc_files')
-#     gtc_file_list = []
-#     for file in gtc_files:
-#         print(file.filename)
-#         gtc_file_list.append(file.filename)
-
-
-#     return render_template("success.html", gtc_file_names=gtc_file_list)
 
 
