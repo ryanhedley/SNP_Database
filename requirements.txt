@@ -1,1 +1,4 @@
-Flask
+flask
+sqlite3
+logging
+easygui
