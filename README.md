@@ -4,7 +4,7 @@ This is currently just a 'proof of concept'. It uploads genotyping data from Ill
 
 ### Requirements:
 
-- GTC files (Illumina) of proband and parents
+- GTC files (Illumina)
 - BPM file (Illumina) corresponding to GTC files
 
 ### Dependencies:
