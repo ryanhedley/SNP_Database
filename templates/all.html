@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+
+<div class="container">
+    <h2>Results Table</h2>
+    <p></p>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Chr</th>
+                <th>Base</th>
+                <th>SNP</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for snp in all_snps %}
+            <tr>
+                <td>{{snp[0]}}</td>
+                <td>{{snp[1]}}</td>
+                <td>{{snp[2]}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

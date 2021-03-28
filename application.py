@@ -5,6 +5,7 @@ import sqlite_queries as queries
 app = Flask(__name__)
 
 
+
 db_name = "snpdata.db"
 
 
@@ -12,11 +13,16 @@ db_name = "snpdata.db"
 def home():
 
     try:
-        count = queries.count(db_name)
+        manifest_count = queries.count_manifest(db_name)
     except:
-         count = 0
+         manifest_count = 0
 
-    return render_template("home.html", count=count)
+    try:
+        patients_count = queries.count_patients(db_name)
+    except:
+         patients_count = 0
+
+    return render_template("home.html", manifest_count=manifest_count, patients_count=patients_count)
 
 
 @app.route("/upload")
@@ -38,23 +44,38 @@ def results():
     else:
         snp_names = ""
 
-    results = queries.search_snp(db_name, snp_names)
+    results, summary = queries.search_snp(db_name, snp_names)
 
-    return render_template("results.html", results=results)
+    return render_template("results.html", results=results, summary=summary)
 
 
 @app.route("/bpm_upload")
 def bpm_upload():
 
     queries.add_manifest(db_name)
-    return redirect(url_for('upload'))
+    return redirect(url_for('home'))
     
 
 @app.route("/gtc_upload")
 def gtc_upload():
 
     queries.add_multi_gtc_files(db_name)
-    return redirect(url_for('upload'))
+    return redirect(url_for('home'))
 
+@app.route("/all")
+def all_snps():
+
+    all_snps = queries.all_snp(db_name)
+
+    return render_template("all.html", all_snps=all_snps)
+
+
+@app.route("/hfe")
+def hfe_snps():
+
+
+    hfe_snps = queries.hfe_snps(db_name)
+
+    return render_template("hfe.html", hfe_snps=hfe_snps)
 
 

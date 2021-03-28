@@ -2,6 +2,37 @@
 
 {% block body %}
 
+    <div class="row py-3">
+        <h2>Welcome to the SNP Database.</h2>
+    </div>
+
+
+    <div class="row py-3">
+        <div class="col-md-4 py-2">
+            {% if manifest_count > 0 %}
+                <h4>Manifest file uploaded</h4>
+                <ul>
+                    <li>Entries in manifest: {{manifest_count}}</li>
+                </ul>
+                
+            {% endif %}
+        </div>
+
+        <div class="col-md-4 py-2">
+            {% if patients_count > 0 %}
+                <h4>Patients uploaded</h4>
+                <ul>
+                    <li>Number of patients: {{patients_count}}</li> 
+                    <li><a href="/upload">Upload more</a></li>
+                </ul>
+
+            {% endif %}
+        </div>
+
+        <div class="col-md-4 py-2"></div>
+
+    </div>
+
     {% if manifest_file %}
         <p>{{ manifest_file }}</p>
     {% endif %}
@@ -10,10 +41,7 @@
         {% for gtc_file in gtc_files %}
             <p>{{gtc_file}}</p>
         {% endfor %}
-    {% endif %}
 
-    {% if count > 0 %}
-        <p>Entries in manifest: {{count}}</p>
-    {% endif %}
+{% endif %}
 
 {% endblock %}

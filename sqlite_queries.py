@@ -7,6 +7,8 @@ import easygui
 from sqlite_class import Database
 from module import GenotypeCalls, BeadPoolManifest, code2genotype
 
+
+
 logging.basicConfig(filename="sqlite.log", level=logging.DEBUG)
 
 def add_manifest(db_name):
@@ -166,24 +168,72 @@ def search_snp(db_name, snp_names):
     with Database(name=db_name) as db:
 
 
-        columns = "patient_name, manifest_name, base, genotype"
+        result_columns = "patient_name, manifest_name, base, genotype"
+        summary_columns = "manifest_name, base, COUNT(patient_name)"
         table = "genotypes"
-        # manifest_names = "'rs1799945','rs1800562'"
-        # manifest_names = "'rs1800562'"
-        
-        # print("Manifest names:", snp_names)
-        
-        test = db.read_query(f"SELECT {columns} FROM {table} WHERE manifest_name IN ({snp_names});")
+         
+        results = db.read_query(f"SELECT {result_columns} FROM {table} WHERE manifest_name IN ({snp_names});")
+        summary = db.read_query(f"SELECT {summary_columns} FROM {table} WHERE manifest_name IN ({snp_names}) GROUP BY genotype;")
 
-        return test
+        return results, summary
 
 
-def count(db_name):
+def count_manifest(db_name):
 
     table = "manifest"
     
     with Database(name=db_name) as db:
         count = db.read_query(f"SELECT COUNT(*) FROM {table}")[0][0]
 
+    return count
+
+def count_patients(db_name):
+
+    table = "patients"
+    
+    with Database(name=db_name) as db:
+        count = db.read_query(f"SELECT COUNT(*) FROM {table}")[0][0]
 
     return count
+
+
+def all_snp(db_name):
+
+    with Database(name=db_name) as db:
+
+        chr_list = f"'1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','X','Y'"
+
+        #print(chr_list)
+        all_snps = db.read_query(f"SELECT manifest.chrom, manifest.base, genotypes.genotype FROM manifest JOIN genotypes ON genotypes.manifest_name=manifest.name WHERE manifest.chrom IN ({chr_list}) ORDER BY manifest.chrom, manifest.base;")
+
+
+        #print(all_snps)
+        print(len(all_snps))
+
+        return all_snps
+
+
+def hfe_snps(db_name):
+
+    with Database(name=db_name) as db:
+
+        c282y_name = "'rs1800562'"
+        c282y_wt = "'GG'"
+        c282y_het = "'AG'"
+        c282y_hom = "'AA'"
+
+        h63d_name = "'rs1799945'"
+        h63d_wt = "'CC'"
+        h63d_het = "'CG'"
+        h63d_hom = "'GG'"
+
+        c282y_wts = db.read_query(f"SELECT manifest_name, base, COUNT(base) FROM genotypes WHERE (manifest_name ={c282y_name}) AND (base={c282y_wt}) GROUP BY manifest_name;")
+        c282y_hets = db.read_query(f"SELECT manifest_name, base, COUNT(base) FROM genotypes WHERE (manifest_name ={c282y_name}) AND (base={c282y_het}) GROUP BY manifest_name;")
+        c282y_homs = db.read_query(f"SELECT manifest_name, base, COUNT(base) FROM genotypes WHERE (manifest_name ={c282y_name}) AND (base={c282y_hom}) GROUP BY manifest_name;")
+        h63d_wts = db.read_query(f"SELECT manifest_name, base, COUNT(base) FROM genotypes WHERE (manifest_name ={h63d_name}) AND (base={h63d_wt}) GROUP BY manifest_name;")
+        h63d_hets = db.read_query(f"SELECT manifest_name, base, COUNT(base) FROM genotypes WHERE (manifest_name ={h63d_name}) AND (base={h63d_het}) GROUP BY manifest_name;")
+        h63d_homs = db.read_query(f"SELECT manifest_name, base, COUNT(base) FROM genotypes WHERE (manifest_name ={h63d_name}) AND (base={h63d_hom}) GROUP BY manifest_name;")
+
+        hfe_snps = c282y_wts + c282y_hets + c282y_homs + h63d_wts + h63d_hets + h63d_homs
+
+        return hfe_snps
